@@ -34,6 +34,7 @@ public class BackgroundTimer {
        timerGUI.setSeconds(secondsStr);
       		
         if (minutes == 0 && seconds == 0) {
+          timerGUI.makeDialog("Time's up !");
           stop();
         }
       }
@@ -46,7 +47,7 @@ public class BackgroundTimer {
     public void start(String minutesArg, String secondsArg) {
         int minutesInt = Integer.parseInt(minutesArg);
         int secondsInt = Integer.parseInt(secondsArg);
-        
+
         if (secondsInt == 0 && minutesInt != 0) {
             minutes = minutesInt - 1;
             seconds = 60;
@@ -56,14 +57,17 @@ public class BackgroundTimer {
         }
       
       if (secondsInt == 0 && minutesInt == 0) {
+        timerGUI.makeDialog("Error: Timer can't start at 0");
         stop();
       } 
-      
-        timer.scheduleAtFixedRate(task, 1000, 1000);
+
+      timer.scheduleAtFixedRate(task, 1000, 1000);
     }
 
     public void stop() {
         timer.cancel();
+        timer.purge();
+        return;
     }
 
 }

@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 
 public class TimerGUI {
     private BackgroundTimer bgTimer;
@@ -23,6 +24,8 @@ public class TimerGUI {
 
     private JTextField minutesField;
     private JTextField secondsField;
+
+    private JDialog dialog;
 
     public TimerGUI() {
         startBtn = new JButton("Start");
@@ -84,6 +87,7 @@ public class TimerGUI {
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
 
@@ -97,22 +101,30 @@ public class TimerGUI {
 
     public void stop() {
         bgTimer.stop();
+        bgTimer = new BackgroundTimer(this);
     }
 
     public void start() {
         String minutes = minutesField.getText();
         String seconds = secondsField.getText();
+        bgTimer = new BackgroundTimer(this);
         bgTimer.start(minutes, seconds);
     }
 
     public void reset() {
-        bgTimer.stop();
+        stop();
         setMinutes("00");
         setSeconds("00");
     }
 
-    public void attachTimer(BackgroundTimer timer) {
-        bgTimer = timer;
+    public void makeDialog(String text) {
+        dialog = new JDialog(frame, "Alert !");
+        JLabel label = new JLabel(text);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        dialog.add(label);
+        dialog.pack();
+        dialog.setSize(200,100);
+        dialog.setVisible(true);
+        dialog.setLocationRelativeTo(null);
     }
- 
 }
