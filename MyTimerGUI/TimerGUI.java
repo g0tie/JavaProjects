@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 
 public class TimerGUI {
+    private BackgroundTimer bgTimer;
+
     private JFrame frame;
     private JPanel buttonPanel;
     private JPanel timerPanel;
@@ -26,6 +28,29 @@ public class TimerGUI {
         startBtn = new JButton("Start");
         stopBtn = new JButton("Stop");
         resetBtn = new JButton("Reset");
+        startBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               start();
+            }
+        });
+
+        stopBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               stop();
+            }
+        });
+
+        resetBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               reset();
+            }
+        });
 
         minutesField = new JTextField("00");
         secondsField = new JTextField("00");
@@ -68,6 +93,26 @@ public class TimerGUI {
 
     public void setSeconds(String seconds) {
         secondsField.setText(seconds);
+    }
+
+    public void stop() {
+        bgTimer.stop();
+    }
+
+    public void start() {
+        String minutes = minutesField.getText();
+        String seconds = secondsField.getText();
+        bgTimer.start(minutes, seconds);
+    }
+
+    public void reset() {
+        bgTimer.stop();
+        setMinutes("00");
+        setSeconds("00");
+    }
+
+    public void attachTimer(BackgroundTimer timer) {
+        bgTimer = timer;
     }
  
 }
